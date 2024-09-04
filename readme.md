@@ -61,3 +61,8 @@ INFO:awesome_mutator:Generated patches: [{'op': 'add', 'path': '/spec/nodeSelect
 INFO:awesome_mutator:Sending admission response
 INFO:     10.60.1.2:48094 - "POST /mutate?timeout=10s HTTP/1.1" 200 OK
 ```
+
+## TODO's ##
+- Unit Tests + Mocks
+- Change to CRD's versus ConfigMap
+- Create helm chart to install and operate
