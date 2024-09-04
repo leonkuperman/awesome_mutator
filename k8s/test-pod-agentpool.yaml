@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pod-agentpool
+  namespace: default
+  labels:
+    app: canyon
+spec:
+  nodeSelector:
+    agentpool: copprfpool
+  containers:
+    - name: nginx
+      image: nginx

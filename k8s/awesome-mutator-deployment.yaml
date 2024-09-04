@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: awesome-mutator
+  namespace: default 
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: awesome-mutator
+  template:
+    metadata:
+      labels:
+        app: awesome-mutator
+    spec:
+      serviceAccountName: awesome-mutator-sa
+      containers:
+        - name: awesome-mutator
+          image: lkup77/awesome_mutator:16
+          ports:
+            - containerPort: 443
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchLabels:
+                  app: awesome-mutator
+              topologyKey: "kubernetes.io/hostname"

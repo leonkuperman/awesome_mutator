@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: awesome-mutator-service
+  namespace: default  # Ensure this matches the namespace in your webhook configuration
+spec:
+  selector:
+    app: awesome-mutator
+  ports:
+    - port: 443           # The port the service exposes
+      targetPort: 443     # The port your FastAPI server is listening on
+      protocol: TCP
