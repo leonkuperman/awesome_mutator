@@ -18,7 +18,7 @@ data:
         "removeNodeSelectors": ["agentpool"],
         "addNodeSelectors": {"scheduling.cast.ai/node-template": "test-mut-nt-3"},
         "addTolerations": [
-          {"key": "scheduling.cast.ai/node-template", "operator": "Equal", "value": "", "effect": "NoSchedule"}
+          {"key": "scheduling.cast.ai/node-template", "operator": "Equal", "value": "backend", "effect": "NoSchedule"}
         ]
       }
     ]
