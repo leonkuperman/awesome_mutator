@@ -24,6 +24,8 @@
 
 This will create the needed rbac, service, deployment and webhook along with a sample configuration that you can change in *awesome-mutator-config-map.yaml* 
 
+Note that when you first apply the k8s manifests, the webhook may not be up yet so the test pods will fail scheduling. Just delete them and retry once you've confirmed the webhook is up and running ok.
+
 You should be able to see the startup logs as follows:
 
 ```
