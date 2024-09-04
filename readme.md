@@ -19,7 +19,7 @@
 ## Setup and Deployment
 - You can pull the pre-built docker image from: https://hub.docker.com/repository/docker/lkup77/awesome_mutator/general
 
-## Apply the k8s scripts in the following order
+## Apply the k8s scripts
 - kubectl apply -f k8s
 
 This will create the needed rbac, service, deployment and webhook along with a sample configuration that you can change in *awesome-mutator-config-map.yaml* 
