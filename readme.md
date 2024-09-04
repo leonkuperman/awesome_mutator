@@ -39,3 +39,23 @@ The k8s folder also contains 2 test pods with various labels and node selectors.
 - Rules will remove NodeSelecor by name using *removeNodeSelectors*
 - Rules will add NodeSelector using details of *addNodeSelectors*
 - Rules will add Tolerations using the details of *addTolerations*
+
+An example of an applied rule from the logs:
+
+```
+INFO:awesome_mutator:Received mutation request
+INFO:awesome_mutator:Filtered object metadata: {'name': 'test-pod-agentpool', 'namespace': 'default', 'labels': {'app': 'canyon'}, 'annotations': {'kubectl.kubernetes.io/last-applied-configuration': '{"apiVersion":"v1","kind":"Pod","metadata":{"annotations":{},"labels":{"app":"canyon"},"name":"test-pod-agentpool","namespace":"default"},"spec":{"containers":[{"image":"nginx","name":"nginx"}],"nodeSelector":{"agentpool":"copprfpool"}}}\n'}}
+INFO:awesome_mutator:Filtered pod spec: {'volumes': [{'name': 'kube-api-access-cm4xs', 'projected': {'sources': [{'serviceAccountToken': {'expirationSeconds': 3607, 'path': 'token'}}, {'configMap': {'name': 'kube-root-ca.crt', 'items': [{'key': 'ca.crt', 'path': 'ca.crt'}]}}, {'downwardAPI': {'items': [{'path': 'namespace', 'fieldRef': {'apiVersion': 'v1', 'fieldPath': 'metadata.namespace'}}]}}], 'defaultMode': 420}}], 'containers': [{'name': 'nginx', 'image': 'nginx', 'resources': {}, 'volumeMounts': [{'name': 'kube-api-access-cm4xs', 'readOnly': True, 'mountPath': '/var/run/secrets/kubernetes.io/serviceaccount'}], 'terminationMessagePath': '/dev/termination-log', 'terminationMessagePolicy': 'File', 'imagePullPolicy': 'Always'}], 'tolerations': [{'key': 'node.kubernetes.io/not-ready', 'operator': 'Exists', 'effect': 'NoExecute', 'tolerationSeconds': 300}, {'key': 'node.kubernetes.io/unreachable', 'operator': 'Exists', 'effect': 'NoExecute', 'tolerationSeconds': 300}], 'priority': 0}
+INFO:awesome_mutator:Created V1Pod object for pod: test-pod-agentpool
+INFO:awesome_mutator:Creating JSON patches for pod: test-pod-agentpool
+INFO:awesome_mutator:Checking if pod matches selector 'app=myapp,environment=prod': False
+INFO:awesome_mutator:Checking if pod matches selector 'app=canyon': True
+INFO:awesome_mutator:Pod matches rule 'remove-agentpool-for-canyon': Applying mutations
+INFO:awesome_mutator:Added patch to create nodeSelector
+INFO:awesome_mutator:Adding node selector 'scheduling.cast.ai/node-template: test-mut-nt-3'
+INFO:awesome_mutator:Adding toleration: {'key': 'scheduling.cast.ai/node-template', 'operator': 'Equal', 'value': '', 'effect': 'NoSchedule'}
+INFO:awesome_mutator:Stopping rule evaluation after applying rule 'remove-agentpool-for-canyon'
+INFO:awesome_mutator:Generated patches: [{'op': 'add', 'path': '/spec/nodeSelector', 'value': {}}, {'op': 'add', 'path': '/spec/nodeSelector/scheduling.cast.ai~1node-template', 'value': 'test-mut-nt-3'}, {'op': 'add', 'path': '/spec/tolerations/-', 'value': {'key': 'scheduling.cast.ai/node-template', 'operator': 'Equal', 'value': '', 'effect': 'NoSchedule'}}]
+INFO:awesome_mutator:Sending admission response
+INFO:     10.60.1.2:48094 - "POST /mutate?timeout=10s HTTP/1.1" 200 OK
+```
